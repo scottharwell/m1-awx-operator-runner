@@ -4,9 +4,6 @@ alias deploy_awx="bash -c \"make deploy\""
 
 # custom functions
 function fish_greeting
-    cd awx-operator
-    git checkout (git describe --tags --abbrev=0) &> /dev/null
-
     echo ""
     echo "Welcome to the AWX deployment container!"
     echo ""

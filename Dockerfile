@@ -27,7 +27,6 @@ RUN sed -e 's/^%wheel/#%wheel/g' -e 's/^# %wheel/%wheel/g' -i /etc/sudoers
 
 # Set default user
 USER $USERNAME:$USERNAME
-ENTRYPOINT ["/usr/bin/fish"]
 SHELL ["/usr/bin/fish","-c"]
 
 # Set workdir to user home
@@ -63,3 +62,10 @@ RUN sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.kube
 
 # Clone AWX Operator Repo
 RUN git clone $AWX_REPO /home/$USERNAME/awx-operator
+
+# Checkout the latest release
+WORKDIR /home/$USERNAME/awx-operator
+RUN git checkout (git describe --tags --abbrev=0) &> /dev/null
+
+# Set the entrypoint to auto-call `make deploy`
+ENTRYPOINT ["/usr/bin/make","deploy"]

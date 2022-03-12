@@ -21,9 +21,9 @@ docker buildx build \
 
 ### Running the Container
 
-Once the container is built, then you can just run the container when you want to run the latest updates to AWX.  The operator will be at the latest version as of the time that it was built.  If the versions are off, then you can build a new container instance, or just run `git pull` from the repository in the container and then checkout the newest release.
+Once the container is built, then you can just run the container when you want to run the latest updates to AWX.  The container entry point is pre-configured to the latest release of the AWX operator.  So, when running the following `docker run` command, it will operate functionally the same as if you were running `make deploy` from the repo on your local machine.  The operator will be at the latest version as of the time that the container was last built.
 
-Be sure that you properly mount your K8s config file so that the AWX Operator will be able to deploy to your cluster.
+Be sure that you properly mount your K8s config file so that the AWX operator will be able to deploy to your cluster.
 
 ```fish
 docker run -it \
@@ -31,7 +31,19 @@ docker run -it \
 --name awx-operator-runner \
 --platform=linux/amd64 \
 --mount type=bind,source="$HOME/.kube/config",target=/home/awx/.kube/config \
-docker-registry.gso.harwell.me/scottharwell/m1-awx-operator-runner
+quay.io/scottharwell/m1-awx-operator-runner:latest
+```
+
+If you want to enter the container and update the commit used from the AWX operator git repo or perform some other task, then you may run the following to be dropped into a Fish shell.
+
+```fish
+docker run -it \
+--rm \
+--name awx-operator-runner \
+--platform=linux/amd64 \
+--mount type=bind,source="$HOME/.kube/config",target=/home/awx/.kube/config \
+--entrypoint /usr/bin/fish \
+quay.io/scottharwell/m1-awx-operator-runner:latest
 ```
 
 The container will start with the following message:
