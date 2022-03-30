@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3-labs
-# This builds a docker image for that forces use of amd64 architecture to deploy the AWX operator since it does not support ARM
+# Kubectl requires amd64 from its current repo
 FROM --platform=linux/amd64 quay.io/fedora/fedora:35
 
 ARG USERNAME=awx
