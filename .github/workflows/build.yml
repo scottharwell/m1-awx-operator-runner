@@ -3,7 +3,7 @@ name: Build CI
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   push:
     branches:
       - main
@@ -40,4 +40,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: scottharwell/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/scottharwell/${{ env.IMAGE_NAME }}:latest
