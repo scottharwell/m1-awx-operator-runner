@@ -8,7 +8,7 @@
 
 This repo contains a Dockerfile that builds a Fedora-based container that includes the latest release tag from the AWX operator repository, the `kubectl` command, and a few other niceties to make it easy to just run the container to have the AWX Operator deployed for you.
 
-**Note**: This container used to be based on the `make deploy` command, which was CPU architecture dependent.  However, it now uses `kustomize` which can run on amd64 or aarch64 CPUs natively. 
+**Note**: This container used to be based on the `make deploy` command, which was CPU architecture dependent.  However, it now uses `kustomize` which can run on amd64 or aarch64 CPUs natively.
 
 ## How-To
 
