@@ -36,6 +36,7 @@ docker run \
 -it \
 --rm \
 --name awx-operator-runner \
+--pull \
 --mount type=bind,source="$HOME/.kube/config",target=/home/awx/.kube/config \
 quay.io/scottharwell/m1-awx-operator-runner:latest
 ```
@@ -46,6 +47,7 @@ If you want to enter the container and update the commit used from the AWX opera
 docker run -it \
 --rm \
 --name awx-operator-runner \
+--pull \
 --mount type=bind,source="$HOME/.kube/config",target=/home/awx/.kube/config \
 --entrypoint /bin/bash \
 quay.io/scottharwell/m1-awx-operator-runner:latest
