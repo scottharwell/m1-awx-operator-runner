@@ -20,6 +20,7 @@ In order to build this container, you can run the following to build locally and
 docker buildx build \
 --platform linux/amd64,linux/arm64 \
 -t $REGISTRY/m1-awx-operator-runner:latest \
+--progress plain \
 --push .
 ```
 

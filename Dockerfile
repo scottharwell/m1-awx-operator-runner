@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.3-labs
 # Kubectl requires amd64 from its current repo
-FROM --platform=linux/amd64 quay.io/fedora/fedora:37
+FROM --platform=linux/amd64 quay.io/fedora/fedora:38
 
 ARG USERNAME=awx
 ARG USERCOMMENT="AWX Deployment Account"
