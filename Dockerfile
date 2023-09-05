@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.3-labs
-# Kubectl requires amd64 from its current repo
-FROM --platform=linux/amd64 quay.io/fedora/fedora:38
+FROM quay.io/fedora/fedora:38
 
+ARG TARGETARCH
 ARG USERNAME=awx
 ARG USERCOMMENT="AWX Deployment Account"
 ARG USERID=1000
@@ -14,7 +14,7 @@ RUN python3 -m ensurepip --upgrade
 RUN dnf install -y git wget util-linux util-linux-user which vim
 
 # Install Kubectl
-COPY kubernetes.repo /etc/yum.repos.d/kubernetes.repo
+COPY kubernetes_${TARGETARCH}.repo /etc/yum.repos.d/kubernetes.repo
 RUN dnf install -y kubectl
 RUN cd /usr/bin && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
@@ -40,7 +40,7 @@ RUN echo "export PATH=\$PATH:/home/$USERNAME/.local/bin" >> /home/$USERNAME/.bas
 # Create a kube config folder
 RUN mkdir /home/$USERNAME/.kube
 RUN chmod 700 /home/$USERNAME/.kube
-RUN sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.kube
+RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 # Clone AWX Operator Repo
 RUN git clone $AWX_REPO /home/$USERNAME/awx-operator
@@ -65,6 +65,9 @@ images:
 namespace: awx" > kustomization.yaml
 EOF
 RUN kustomize build .
+
+# Set user to non-root
+USER 1000
 
 # Set the entrypoint to auto-call `kubectl apply -f -`
 ENTRYPOINT ["/usr/bin/kubectl","apply","-k","./"]
